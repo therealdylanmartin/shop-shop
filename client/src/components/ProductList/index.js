@@ -25,14 +25,14 @@ function ProductList({ currentCategory }) {
       <h2>Our Products:</h2>
       {products.length ? (
         <div className="flex-row">
-          {filterProducts().map((product) => (
+          {filterProducts().map(({ _id, image, name, price, quantity }) => (
             <ProductItem
-              key={product._id}
-              _id={product._id}
-              image={product.image}
-              name={product.name}
-              price={product.price}
-              quantity={product.quantity}
+              key={_id}
+              _id={_id}
+              image={image}
+              name={name}
+              price={price}
+              quantity={quantity}
             />
           ))}
         </div>

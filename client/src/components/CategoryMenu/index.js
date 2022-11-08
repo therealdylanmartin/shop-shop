@@ -9,14 +9,14 @@ function CategoryMenu({ setCategory }) {
   return (
     <div>
       <h2>Choose a Category:</h2>
-      {categories.map((item) => (
+      {categories.map(({ _id, name }) => (
         <button
-          key={item._id}
+          key={_id}
           onClick={() => {
-            setCategory(item._id);
+            setCategory(_id);
           }}
         >
-          {item.name}
+          {name}
         </button>
       ))}
     </div>

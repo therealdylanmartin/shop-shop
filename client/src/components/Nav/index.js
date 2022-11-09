@@ -1,8 +1,19 @@
 import React from "react";
-import Auth from "../../utils/auth";
 import { Link } from "react-router-dom";
 
+import Auth from "../../utils/auth";
+import { useStoreContext } from "../../utils/GlobalState";
+import { UPDATE_CURRENT_CATEGORY } from '../../utils/actions';
+
 function Nav() {
+  const [state, dispatch] = useStoreContext();
+
+  const handleClick = () => {
+    dispatch({
+      type: UPDATE_CURRENT_CATEGORY,
+      currentCategory: ''
+    })
+  }
 
   function showNavigation() {
     if (Auth.loggedIn()) {
@@ -42,7 +53,7 @@ function Nav() {
   return (
     <header className="flex-row px-1">
       <h1>
-        <Link to="/">
+        <Link to="/" onClick={() => handleClick()}>
           <span role="img" aria-label="shopping bag">🛍️</span>
           -Shop-Shop
         </Link>

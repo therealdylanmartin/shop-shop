@@ -3,13 +3,7 @@ import { Link } from "react-router-dom";
 import { pluralize } from "../../utils/helpers"
 
 function ProductItem(item) {
-  const {
-    image,
-    name,
-    _id,
-    price,
-    quantity
-  } = item;
+  const { image, name, _id, price, quantity } = item;
 
   return (
     <div className="card px-1 py-1">

@@ -6,7 +6,12 @@ import Cart from '../components/Cart';
 
 import { QUERY_PRODUCTS } from '../utils/queries';
 import { useStoreContext } from "../utils/GlobalState";
-import { UPDATE_PRODUCTS } from "../utils/actions";
+import {
+  REMOVE_FROM_CART,
+  UPDATE_CART_QUANTITY,
+  ADD_TO_CART,
+  UPDATE_PRODUCTS,
+} from '../utils/actions';
 
 import spinner from '../assets/spinner.gif';
 
@@ -25,7 +30,7 @@ function Detail() {
       dispatch({
         type: UPDATE_PRODUCTS,
         products: data.products
-      });
+      })
     }
   }, [products, data, dispatch, id]);
 
@@ -34,6 +39,13 @@ function Detail() {
       setCurrentProduct(state.products.find((product) => product._id === id))
     }
   }, [state.products, id])
+
+  const addToCart = () => {
+    dispatch({
+      type: ADD_TO_CART,
+      product: { ...currentProduct, purchaseQuantity: 1 }
+    })
+  }
 
   return (
     <>
@@ -47,7 +59,7 @@ function Detail() {
 
           <p>
             <strong>Price:</strong>${currentProduct.price}{' '}
-            <button>Add to Cart</button>
+            <button onClick={addToCart}>Add to Cart</button>
             <button>Remove from Cart</button>
           </p>
 

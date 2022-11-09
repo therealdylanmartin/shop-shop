@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   right: 0;
-  min-width: 240px;
+  min-width: 300px;
   max-width: 30%;
   max-height: 60%;
   background-color: var(--light);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { pluralize } from '../../utils/helpers';
+import { pluralize, idbPromise } from '../../utils/helpers';
 import { useStoreContext } from '../../utils/GlobalState';
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 
@@ -23,10 +23,20 @@ function ProductItem(item) {
         _id: _id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
       })
+      // if we're updating quantity, use existing item data and increment purchaseQuantity value by one
+      idbPromise('cart', 'put', {
+        ...itemInCart,
+        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
+      })
     } else {
       dispatch({
         type: ADD_TO_CART,
         product: { ...item, purchaseQuantity: 1 }
+      })
+      // upon removal from cart, delete the item from IndexedDB using the `currentProduct` to locate what to remove
+      idbPromise('cart', 'put', {
+        ...item,
+        purchaseQuantity: 1
       })
     }
   }

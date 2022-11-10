@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client';
 
 import Cart from '../components/Cart';
 
+import { idbPromise } from "../utils/helpers";
 import { QUERY_PRODUCTS } from '../utils/queries';
 import { useStoreContext } from "../utils/GlobalState";
 import {
@@ -31,14 +32,23 @@ function Detail() {
         type: UPDATE_PRODUCTS,
         products: data.products
       })
-    }
-  }, [products, data, dispatch, id]);
 
-  useEffect(() => {
-    if (state.products.length) {
-      setCurrentProduct(state.products.find((product) => product._id === id))
+      // but let's also take each product and save it to IndexedDB using the helper function 
+      data.products.forEach((product) => {
+        idbPromise('products', 'put', product);
+      })
+      // add else if to check if `loading` is undefined in `useQuery()` Hook
+    } else if (!loading) {
+      // since we're offline, get all of the data from the `products` store
+      idbPromise('products', 'get').then((indexedProducts) => {
+        // use retrieved data to set global state for offline browsing
+        dispatch({
+          type: UPDATE_PRODUCTS,
+          products: indexedProducts
+        })
+      })
     }
-  }, [state.products, id])
+  }, [products, data, loading, dispatch, id]);
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);

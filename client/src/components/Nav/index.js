@@ -6,7 +6,7 @@ import { useStoreContext } from "../../utils/GlobalState";
 import { UPDATE_CURRENT_CATEGORY } from '../../utils/actions';
 
 function Nav() {
-  const [state, dispatch] = useStoreContext();
+  const [, dispatch] = useStoreContext();
 
   const handleClick = () => {
     dispatch({
